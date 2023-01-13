@@ -1,5 +1,5 @@
-GITHUB FRONTEND: https://github.com/avram-beni11/cw2frontend
+GITHUB FRONTEND: https://github.com/NBKdev/frontend
 
-GITHUB BACKEND: https://github.com/avram-beni11/cw2backend
+GITHUB BACKEND: https://github.com/NBKdev/backend
 
-GITHUB PAGES: https://avram-beni11.github.io/web-app-part-2/
+GITHUB PAGES: https://NBKdev.github.io/main/
