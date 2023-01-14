@@ -1,6 +1,21 @@
-//const { response } = require('express');
-const express = require('express');
+const { MongoClient } = require("mongodb");
+const express = require("express");
 const app = express();
+
+// establish a connection with mongodb
+const uri =
+	"mongodb+srv://dauris-dude:dyWNzqsGVhErKgwX@cluster0.sz0fk0v.mongodb.net/?retryWrites=true&w=majority"; //uri for mongodb
+
+const client = new MongoClient(uri);
+
+// try to establish a connection with the mongodb
+try {
+	await client.connect().then(() => console.log("connected to mongodb"));
+} catch (e) {
+	console.log("error while connecting to mongodb", e);
+} finally {
+	await client.close(); // if there are errors, close the client's connection to mongodb
+}
 
 // Define the lessons array
 // app.get('/lessons', (request, response, next) => {
@@ -22,9 +37,6 @@ app.get('/lessons', (req, res) => {
     ];
     res.json(lessons);
 })
-
-
-
 
 app.get("/user", (req, res, next) => {
     var user = { 'email': 'user@email.com', 'password': 'mypassword' };
