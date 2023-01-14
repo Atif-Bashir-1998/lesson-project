@@ -1,7 +1,4 @@
 const { MongoClient } = require("mongodb");
-const express = require("express");
-const app = express();
-
 // establish a connection with mongodb
 const uri =
 	"mongodb+srv://dauris-dude:dyWNzqsGVhErKgwX@cluster0.sz0fk0v.mongodb.net/?retryWrites=true&w=majority"; //uri for mongodb
@@ -20,33 +17,37 @@ async function connect() {
 
 connect();
 
-// Define the lessons array
-// app.get('/lessons', (request, response, next) => {
-var lessons = [
-    { topic: 'math', location: 'Hendon', price: 100 },
-    { topic: 'math', location: 'Colindale', price: 80 },
-    { topic: 'math', location: "Brent Cross", price: 90 },
-    { topic: 'math', location: 'Golders Green', price: 120 }
-];
-//   response.send(lessons)
-// });
+// get all lessons
+const express = require("express");
 
-app.get('/lessons', (req, res) => {
-    var lessons = [
-        { topic: 'math', location: 'Hendon', price: 100 },
-        { topic: 'math', location: 'Colindale', price: 80 },
-        { topic: 'math', location: "Brent Cross", price: 90 },
-        { topic: 'math', location: 'Golders Green', price: 120 }
-    ];
-    res.json(lessons);
-})
+const app = express();
+app.use(express.json());
 
-app.get("/user", (req, res, next) => {
-    var user = { 'email': 'user@email.com', 'password': 'mypassword' };
-    res.json(user);
-    (user);
+// Defining api routes
+app.get("/api/lesson", (req, res) => {
+  res.send({
+    msg: "load all the lessons"
+  });
 });
 
-app.use(express.static("./"));
+app.post("/api/order", (req, res) => {
+  res.send({
+		msg: "create a new order",
+		sentData: req.body
+	});
+});
 
-app.listen(3000, () => console.log('Server listening on port 3000'));
+app.put("/api/lesson/:id", (req, res) => {
+	res.send({
+    msg: `update spaces in lesson with id: {${req.params.id}}`,
+    sentData: req.body,
+  });
+});
+
+// PORT
+const PORT = 3000;
+
+// Starting the server
+app.listen(PORT, () => {
+  console.log(`Server is running on PORT: ${PORT}`);
+});
