@@ -34,6 +34,16 @@ async function updateLesson(id, space) {
     .updateOne({ _id: ObjectId(id) }, { $inc: { "space": -space } });
 }
 
+async function searchLesson(topic) {
+return client
+  .db("project")
+  .collection("lessons")
+  .find({
+    topic: { $regex: topic, $options: "is" },
+  })
+  .toArray();
+}
+
 // setting up express server
 const express = require("express");
 const app = express();
@@ -68,6 +78,13 @@ app.put("/api/lesson/:id", async(req, res) => {
 	const result = await updateLesson(req.params.id, req.body.space);
 	res.send({
     msg: `Spaces in the lesson [id: ${req.params.id}] updated after successful order`,
+  });
+});
+
+app.get("/api/search", async (req, res) => {
+  const result = await searchLesson(req.body.topic);
+  res.send({
+    data: result
   });
 });
 
