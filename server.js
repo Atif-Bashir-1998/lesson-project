@@ -70,7 +70,7 @@ app.get("/api/lesson", async (req, res) => {
 app.post("/api/order", async (req, res) => {
 	const result = await createOrder(req.body);
   res.send({
-		msg: `New order with id [${result.insertedId}] has been created successfully!`,
+		msg: `Reservation with id [${result.insertedId}] has been created successfully!`,
 	});
 });
 
