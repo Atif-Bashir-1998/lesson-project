@@ -64,9 +64,7 @@ app.use("/public", express.static(__dirname + "/public"));  // inbuild "static" 
 // Defining api routes
 app.get("/api/lesson", async (req, res) => {
   const result = await getLessons();
-  res.send({
-    result,
-  });
+  res.send(result);
 });
 
 app.post("/api/order", async (req, res) => {
@@ -85,9 +83,7 @@ app.put("/api/lesson/:id", async(req, res) => {
 
 app.get("/api/search", async (req, res) => {
   const result = await searchLesson(req.body.topic);
-  res.send({
-    data: result
-  });
+  res.send(result);
 });
 
 // PORT
