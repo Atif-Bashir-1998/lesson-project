@@ -36,9 +36,18 @@ async function updateLesson(id, space) {
 
 // setting up express server
 const express = require("express");
-
 const app = express();
 app.use(express.json());
+
+// defining middlewares
+const logger = function (req, res, next) {
+  console.log(`Request for ${req.originalUrl}`);
+  next();
+};
+
+// registering middlewares
+app.use(logger);
+app.use("/public", express.static(__dirname + "/public"));  // inbuild "static" middleware to serve course images
 
 // Defining api routes
 app.get("/api/lesson", async (req, res) => {
