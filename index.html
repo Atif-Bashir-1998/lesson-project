@@ -36,10 +36,10 @@
             <!-- lessons section-->
             <section class="lessons-section">
                 <!-- individual lesson item -->
-                <div v-if="sortedLessons.length">
+                <div class="lessons-list" v-if="sortedLessons.length">
                     <article v-for="(lesson, index) in sortedLessons" :key="lesson.id" class="lesson">
                         <div class="lesson-left">
-                            <img :src="`http://localhost:3000/public/course${index+1}.jpg`" class="lesson-image" />
+                            <img :src="`https://lesson-project.herokuapp.com/public/course${index+1}.jpg`" class="lesson-image" />
                             <h1 class="lesson-title">{{ lesson.topic }}</h1>
                             <button :class="lesson.space === 0 ? 'disabled-purchase-btn' : 'purchase-btn'"
                                 @click="purchaseLesson(lesson)">Purchase Lesson</button>

@@ -28,6 +28,12 @@ body {
   border-radius: 10px;
 }
 
+.lessons-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 /* styling related to individual lesson */
 .lesson {
   display: flex;

@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3000/api";
+const API_URL = "https://lesson-project.herokuapp.com/api";
 
 let webstore = new Vue({
   el: "#app",
