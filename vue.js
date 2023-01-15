@@ -10,6 +10,7 @@ let webstore = new Vue({
     name: "",
     phone: "",
     targetLesson: null,
+    searchTerm: "",
     // baseUrl: "http://localhost:3000/api",
   },
   methods: {
@@ -39,7 +40,7 @@ let webstore = new Vue({
         }),
       }).then(async (response) => {
         let data = await response.json();
-        
+
         await fetch(`${API_URL}/lesson/${this.targetLesson._id}`, {
           method: "PUT",
           headers: {
@@ -62,6 +63,22 @@ let webstore = new Vue({
         });
       });
     },
+    async search() {
+      let response = await fetch(`${API_URL}/search/${this.searchTerm}`, {
+        method: "GET",
+      });
+      let data = await response.json();
+      this.lessons = data;
+
+      console.log("data: ", data);
+    },
+    async getLessons() {
+      let response = await fetch(`${API_URL}/lesson`, {
+        method: "GET",
+      });
+      let data = await response.json();
+      this.lessons = data;
+    }
   },
   computed: {
     sortedLessons: function () {
@@ -90,11 +107,16 @@ let webstore = new Vue({
       return isNameCorrect && isPhoneCorrect;
     },
   },
-  async mounted() {
-    let response = await fetch(`${API_URL}/lesson`, {
-      method: "GET",
-    });
-    let data = await response.json();
-    this.lessons = data;
+  mounted() {
+    this.getLessons()
+  },
+  watch: {
+    searchTerm() {
+      if(this.searchTerm) {
+        this.search();
+      } else {
+        this.getLessons();
+      }
+    },
   },
 });

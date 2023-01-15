@@ -34,12 +34,12 @@ async function updateLesson(id, space) {
     .updateOne({ _id: ObjectId(id) }, { $inc: { "space": -space } });
 }
 
-async function searchLesson(topic) {
+async function searchLesson(searchTerm) {
 return client
   .db("project")
   .collection("lessons")
   .find({
-    topic: { $regex: topic, $options: "is" },
+    topic: { $regex: searchTerm, $options: "is" },
   })
   .toArray();
 }
@@ -81,8 +81,8 @@ app.put("/api/lesson/:id", async(req, res) => {
   });
 });
 
-app.get("/api/search", async (req, res) => {
-  const result = await searchLesson(req.body.topic);
+app.get("/api/search/:searchTerm", async (req, res) => {
+  const result = await searchLesson(req.params.searchTerm);
   res.send(result);
 });
 
