@@ -5,26 +5,108 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coursework 2</title>
-    <link href="style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://cdn.jsdelivr.net/npm/vue@2.7.10/dist/vue.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>Work 2</title>
 </head>
 
 <body>
     <div id="app">
-        <div class="row">
-            <div v-for="lessons in lessons">
-                <ul>
-                    <li>topic: {{ lessons.topic }}</li>
-                    <li>location: {{ lessons.location }}</li>
-                    <li>price: £{{ lessons.price }}</li>
-                </ul>
-            </div>
-        </div>
+
+        <!-- basket -->
+        <article :class="cart.length > 0 ? 'basket' : 'disabled-basket'" @click="togglePage">
+            <span class="fa fa-shopping-basket"></span>
+            <span>{{ cart.length }}</span>
+        </article>
+
+        <!-- lessons page -->
+        <section v-if="activePage === 'lessons'">
+            <!-- Sorting section -->
+            <section class="sorting-section">
+                <select v-model="sortBy">
+                    <option value="topic">Topic</option>
+                    <option value="location">Location</option>
+                    <option value="price">Price</option>
+                    <option value="space">Space</option>
+                </select>
+
+                <select v-model="sortOrder">
+                    <option value="asc">ASC</option>
+                    <option value="desc">DESC</option>
+                </select>
+            </section>
+
+            <!-- lessons section-->
+            <section class="lessons-section">
+                <!-- individual lesson item -->
+                <article v-for="(lesson, index) in sortedLessons" :key="lesson.id" class="lesson">
+                    <div class="lesson-left">
+                        <img :src="`http://localhost:3000/public/course${index+1}.jpg`" class="lesson-image" />
+                        <h1 class="lesson-title">{{ lesson.title }}</h1>
+                        <button :class="lesson.spaces === 0 ? 'disabled-purchase-btn' : 'purchase-btn'"
+                            @click="purchaseLesson(lesson, index)">Purchase Lesson</button>
+                    </div>
+                    <div class="lesson-right">
+                        <p class="lesson-description" v-html="lesson.description"></p>
+                        <p>
+                            <span class="fa fa-map-marker"></span>
+                            <span>{{ lesson.location }}</span>
+                        </p>
+                        <p>
+                            <span class="fa fa-money"></span>
+                            <span>{{ lesson.price }}</span>
+                        </p>
+                        <p>
+                            <span class="fa fa-users"></span>
+                            <span>{{ lesson.space }}</span>
+                        </p>
+                        <p v-if="lesson.spaces === 0">Out of stock more will come</p>
+                        <p v-else-if="lesson.spaces < 5">Only {{ lesson.spaces }} left!</p>
+                        <p v-else>Hurry buy your lessons now!</p>
+                    </div>
+                </article>
+            </section>
+        </section>
+
+        <!-- checkout page -->
+        <section v-else>
+            <h1>Happy Shopping!</h1>
+
+            <!-- cart container -->
+            <article class="cart-container">
+                <h3>Items in Cart</h3>
+                <!-- lessons user has added in cart -->
+                <div class="cart-item" v-for="(item, index) in cart" :key="item.key">
+                    <h1>{{ item.topic }}</h1>
+                    <span class="fa fa-trash-o" @click="removeFromCart(item, index)"></span>
+                </div>
+            </article>
+
+            <!-- checkout section -->
+            <article class="checkout-container">
+                <div class="input-group">
+                    <label for="name">Enter your name:</label>
+                    <input v-model="name" type="text" placeholder="John Doe.">
+                </div>
+                <div class="input-group">
+                    <label for="name">Enter your phone number:</label>
+                    <input v-model="phone" type="text" placeholder="123456789">
+                </div>
+
+                <button :class="canCheckout ? 'checkout-btn' : 'disabled-checkout-btn'"
+                    @click="checkout">Checkout</button>
+
+                <pre v-if="showCheckoutMessage">
+                    <span>Thank you for shopping!!!</span>
+                    <span>Name: {{ name }}</span>
+                    <span>Phone: {{ phone }}</span>
+                </pre>
+            </article>
+        </section>
     </div>
+    <!-- VUE app -->
     <script src="vue.js"></script>
-    <script src="server.js"></script>
-    </script>
 </body>
 
 </html>
