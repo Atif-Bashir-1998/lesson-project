@@ -9,7 +9,6 @@ let webstore = new Vue({
     activePage: "lessons",
     name: "",
     phone: "",
-    showCheckoutMessage: false,
     targetLesson: null,
     // baseUrl: "http://localhost:3000/api",
   },
@@ -30,7 +29,7 @@ let webstore = new Vue({
       this.togglePage();
     },
     async confirm() {
-      let response = await fetch(`${API_URL}/order`, {
+      await fetch(`${API_URL}/order`, {
         method: "POST",
         body: JSON.stringify({
           name: this.name,
@@ -38,11 +37,30 @@ let webstore = new Vue({
           lesson_id: this.targetLesson._id,
           spaces: 1,
         }),
+      }).then(async (response) => {
+        let data = await response.json();
+        
+        await fetch(`${API_URL}/lesson/${this.targetLesson._id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            space: 1,
+          }),
+        }).then(() => {
+          Swal.fire({
+            title: "Confirmed!",
+            text: `${this.name} Thank you. We will contact you at ${this.phone}. ${data.msg}`,
+            icon: "success",
+            confirmButtonText: "Cool",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              window.location.reload();
+            }
+          });
+        });
       });
-      let data = await response.json();
-      console.log("data", data);
-    //   return data;
-      this.showCheckoutMessage = true;
     },
   },
   computed: {

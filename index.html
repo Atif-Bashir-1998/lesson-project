@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://cdn.jsdelivr.net/npm/vue@2.7.10/dist/vue.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="style.css">
     <title>Work 2</title>
 </head>
@@ -83,10 +84,6 @@
                 <button :class="canCheckout ? 'confirm-btn' : 'disabled-confirm-btn'"
                     @click="confirm">Confirm</button>
                 <button class="cancel-btn" @click="togglePage">Cancel</button>
-
-                <pre v-if="showCheckoutMessage">
-                    <span>{{ name }} Thank you for booking your lesson. We will contact you at {{ phone }}</span>
-                </pre>
             </article>
         </section>
     </div>
