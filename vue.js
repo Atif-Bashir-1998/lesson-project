@@ -1,47 +1,47 @@
+const API_URL = "http://localhost:3000/api";
+
 let webstore = new Vue({
   el: "#app",
   data: {
     lessons: [],
     sortBy: "topic",
     sortOrder: "asc",
-    cart: [],
     activePage: "lessons",
     name: "",
     phone: "",
     showCheckoutMessage: false,
+    targetLesson: null,
+    // baseUrl: "http://localhost:3000/api",
   },
   methods: {
     togglePage() {
       if (this.activePage === "lessons") {
-        this.activePage = "checkout";
+        this.activePage = "confirm";
       } else {
         this.activePage = "lessons";
       }
     },
-    purchaseLesson(lesson, index) {
-      let targetLesson = this.lessons[index];
-
-      targetLesson.space--; // reduce a space from the target lesson
-
-      // push the purchased lesson into the cart
-      this.cart.push(targetLesson);
+    purchaseLesson(lesson) {
+      this.targetLesson = lesson;
+      this.togglePage();
     },
-    removeFromCart(lesson, indexInCart) {
-      let index = this.lessons.findIndex((item) => item.id === lesson.id); // getting the index of the lesson in lessons array
-
-      let targetLesson = this.lessons[index];
-
-      targetLesson.space++; // increase a space from the target lesson
-
-      // remove the item from cart
-      this.cart.splice(indexInCart, 1);
-
-      // if user kept on deleting items and cart get empty, redirect user to lessons page
-      if (this.cart.length === 0) {
-        this.activePage = "lessons";
-      }
+    cancelLesson() {
+      this.targetLesson = null;
+      this.togglePage();
     },
-    checkout() {
+    async confirm() {
+      let response = await fetch(`${API_URL}/order`, {
+        method: "POST",
+        body: JSON.stringify({
+          name: this.name,
+          phone: this.phone,
+          lesson_id: this.targetLesson._id,
+          spaces: 1,
+        }),
+      });
+      let data = await response.json();
+      console.log("data", data);
+    //   return data;
       this.showCheckoutMessage = true;
     },
   },
@@ -72,11 +72,11 @@ let webstore = new Vue({
       return isNameCorrect && isPhoneCorrect;
     },
   },
-  async mounted () {
-    let response = await fetch("http://localhost:3000/api/lesson", {
-        method: "GET",
+  async mounted() {
+    let response = await fetch(`${API_URL}/lesson`, {
+      method: "GET",
     });
     let data = await response.json();
     this.lessons = data;
-  }
+  },
 });

@@ -13,13 +13,6 @@
 
 <body>
     <div id="app">
-
-        <!-- basket -->
-        <article :class="cart.length > 0 ? 'basket' : 'disabled-basket'" @click="togglePage">
-            <span class="fa fa-shopping-basket"></span>
-            <span>{{ cart.length }}</span>
-        </article>
-
         <!-- lessons page -->
         <section v-if="activePage === 'lessons'">
             <!-- Sorting section -->
@@ -43,9 +36,9 @@
                 <article v-for="(lesson, index) in sortedLessons" :key="lesson.id" class="lesson">
                     <div class="lesson-left">
                         <img :src="`http://localhost:3000/public/course${index+1}.jpg`" class="lesson-image" />
-                        <h1 class="lesson-title">{{ lesson.title }}</h1>
+                        <h1 class="lesson-title">{{ lesson.topic }}</h1>
                         <button :class="lesson.space === 0 ? 'disabled-purchase-btn' : 'purchase-btn'"
-                            @click="purchaseLesson(lesson, index)">Purchase Lesson</button>
+                            @click="purchaseLesson(lesson)">Purchase Lesson</button>
                     </div>
                     <div class="lesson-right">
                         <p class="lesson-description" v-html="lesson.description"></p>
@@ -69,22 +62,15 @@
             </section>
         </section>
 
-        <!-- checkout page -->
+        <!-- confirm page -->
         <section v-else>
-            <h1>Happy Shopping!</h1>
-
-            <!-- cart container -->
-            <article class="cart-container">
-                <h3>Items in Cart</h3>
-                <!-- lessons user has added in cart -->
-                <div class="cart-item" v-for="(item, index) in cart" :key="item.key">
-                    <h1>{{ item.topic }}</h1>
-                    <span class="fa fa-trash-o" @click="removeFromCart(item, index)"></span>
-                </div>
+            <!-- order container -->
+            <article class="order-container">
+                <h3>Please confirm your reservation for <u>{{ targetLesson.topic }}</u></h3>
             </article>
 
-            <!-- checkout section -->
-            <article class="checkout-container">
+            <!-- confirm section -->
+            <article class="confirm-container">
                 <div class="input-group">
                     <label for="name">Enter your name:</label>
                     <input v-model="name" type="text" placeholder="John Doe.">
@@ -94,13 +80,12 @@
                     <input v-model="phone" type="text" placeholder="123456789">
                 </div>
 
-                <button :class="canCheckout ? 'checkout-btn' : 'disabled-checkout-btn'"
-                    @click="checkout">Checkout</button>
+                <button :class="canCheckout ? 'confirm-btn' : 'disabled-confirm-btn'"
+                    @click="confirm">Confirm</button>
+                <button class="cancel-btn" @click="togglePage">Cancel</button>
 
                 <pre v-if="showCheckoutMessage">
-                    <span>Thank you for shopping!!!</span>
-                    <span>Name: {{ name }}</span>
-                    <span>Phone: {{ phone }}</span>
+                    <span>{{ name }} Thank you for booking your lesson. We will contact you at {{ phone }}</span>
                 </pre>
             </article>
         </section>
