@@ -44,7 +44,7 @@
                     <div class="lesson-left">
                         <img :src="`http://localhost:3000/public/course${index+1}.jpg`" class="lesson-image" />
                         <h1 class="lesson-title">{{ lesson.title }}</h1>
-                        <button :class="lesson.spaces === 0 ? 'disabled-purchase-btn' : 'purchase-btn'"
+                        <button :class="lesson.space === 0 ? 'disabled-purchase-btn' : 'purchase-btn'"
                             @click="purchaseLesson(lesson, index)">Purchase Lesson</button>
                     </div>
                     <div class="lesson-right">
@@ -61,8 +61,8 @@
                             <span class="fa fa-users"></span>
                             <span>{{ lesson.space }}</span>
                         </p>
-                        <p v-if="lesson.spaces === 0">Out of stock more will come</p>
-                        <p v-else-if="lesson.spaces < 5">Only {{ lesson.spaces }} left!</p>
+                        <p v-if="lesson.space === 0">Out of stock more will come</p>
+                        <p v-else-if="lesson.space < 5">Only {{ lesson.space }} left!</p>
                         <p v-else>Hurry buy your lessons now!</p>
                     </div>
                 </article>

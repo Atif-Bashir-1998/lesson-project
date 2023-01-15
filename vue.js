@@ -21,7 +21,7 @@ let webstore = new Vue({
     purchaseLesson(lesson, index) {
       let targetLesson = this.lessons[index];
 
-      targetLesson.spaces--; // reduce a space from the target lesson
+      targetLesson.space--; // reduce a space from the target lesson
 
       // push the purchased lesson into the cart
       this.cart.push(targetLesson);
@@ -31,7 +31,7 @@ let webstore = new Vue({
 
       let targetLesson = this.lessons[index];
 
-      targetLesson.spaces++; // increase a space from the target lesson
+      targetLesson.space++; // increase a space from the target lesson
 
       // remove the item from cart
       this.cart.splice(indexInCart, 1);
