@@ -87,7 +87,7 @@ app.get("/api/search/:searchTerm", async (req, res) => {
 });
 
 // PORT
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Starting the server
 app.listen(PORT, () => {
