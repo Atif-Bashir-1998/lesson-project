@@ -46,8 +46,10 @@ return client
 
 // setting up express server
 const express = require("express");
+var cors = require("cors");
 const app = express();
 app.use(express.json());
+app.use(cors());  // enabling CORS to avoid CORS error between frontend and backend
 
 // defining middlewares
 const logger = function (req, res, next) {
