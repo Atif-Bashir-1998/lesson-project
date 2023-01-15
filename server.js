@@ -86,6 +86,10 @@ app.get("/api/search/:searchTerm", async (req, res) => {
   res.send(result);
 });
 
+app.get("/", async (req, res) => {
+  res.sendFile(__dirname +"/about.html");
+});
+
 // PORT
 const PORT = process.env.PORT || 3000;
 
