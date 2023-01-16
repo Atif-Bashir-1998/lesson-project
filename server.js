@@ -87,7 +87,7 @@ app.get("/api/search/:searchTerm", async (req, res) => {
 });
 
 app.get("/", async (req, res) => {
-  res.sendFile(__dirname +"/about.html");
+  res.sendFile(__dirname +"/index.html");
 });
 
 // PORT
