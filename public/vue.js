@@ -11,7 +11,6 @@ let webstore = new Vue({
     phone: "",
     targetLesson: null,
     searchTerm: "",
-    // baseUrl: "http://localhost:3000/api",
   },
   methods: {
     togglePage() {
